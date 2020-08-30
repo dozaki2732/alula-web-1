@@ -1,0 +1,91 @@
+
+  
+  .back-btn, .back-btn:focus {
+    border: none;
+    background-color: transparent;
+    color: #8f8f8f;
+    outline: none !important;
+  }
+  .link:hover {
+    border: none !important;
+    text-decoration: none !important;
+  }
+  .form-container {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    padding: 1rem;
+    border-radius: 3px;
+    margin-bottom: 1rem;
+  }
+  
+  @media screen and (max-width: 400px) {
+    .table-container {
+      background-color: #f8f9fa;
+      border: 1px solid #e9ecef;
+      width: 768px;
+      padding: 1rem;
+      border-radius: 3px;
+      margin-bottom: 1rem;
+    }
+  }
+  
+  .add-prop,
+  .add-prop:focus {
+    background-color: transparent;
+    border: none;
+    outline: none !important;
+    color: #4e66f8;
+  }
+  
+  .del-prop,
+  .del-prop:focus {
+    background-color: transparent;
+    border: none;
+    outline: none !important;
+    color: #d9534f;
+    padding: 0 0 2px 0;
+    font-size: 14px;
+  }
+
+  .sidebar {
+   height: 100vh;
+  }
+
+  hr {
+    background-color: white;
+  }
+
+  .bg-gradient-secondary {
+    background-color: #858796;
+    background-image: linear-gradient(180deg, #858796 10%, #60616f 100%);
+    background-size: cover;
+  }
+  .bg-gradient-dark {
+    background-color: #5a5c69;
+    background-image: linear-gradient(180deg, #5a5c69 10%, #373840 100%);
+    background-size: cover;
+  }
+
+  .text-gray-200 {
+    color: #eaecf4 !important;
+  }
+
+  .sb-sidenav-menu-heading {
+    padding: 1.75rem 1rem 1rem;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #e9ecef;
+  }
+
+  select {
+      border-radius: 5px;
+      padding: 5px;
+  }
+
+  .text-gray-800 {
+    color: #5a5c69 !important;
+  }
+  .text-gray-900 {
+    color: #3a3b45 !important;
+  }
