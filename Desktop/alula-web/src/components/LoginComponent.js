@@ -2,8 +2,10 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import logo from "../images/logo-color.svg";
 import signInImage from "../images/signin.svg";
-import { v4 as getUuid } from "uuid";
-import hash from "object-hash";
+import axios from "axios";
+import { connect } from "react-redux";
+import actions from "../../../alula-web/src/store/actions";
+import { withRouter } from "react-router-dom";
 
 // CAN SEE FULLNAME, EMAIL, PASSWORD AND CONFIRM PASSWORD IN ADDRESS BAR ** MUST FIX //
 
@@ -19,7 +21,7 @@ class TenantLogin extends Component {
     };
   }
 
-  async setEmailState(emailInput) {
+  setEmailState(emailInput) {
     const loweredCasedEmailInput = emailInput.toLowerCase();
     //eslint-disable-next-line
     const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -39,10 +41,10 @@ class TenantLogin extends Component {
     }
   }
 
-  async setPasswordState(passwordInput, emailInput) {
+  setPasswordState(passwordInput) {
     if (passwordInput === "") {
       this.setState({
-        passwordError: "Please create a password.",
+        passwordError: "Please enter your password.",
         hasPasswordError: true,
       });
     } else {
@@ -50,19 +52,20 @@ class TenantLogin extends Component {
     }
   }
 
-  async validateAndLogUser() {
+  validateAndLogUser() {
     const emailInput = document.getElementById("email-input").value;
     const passwordInput = document.getElementById("password-input").value;
-    await this.setEmailState(emailInput);
-    await this.setPasswordState(passwordInput, emailInput);
+    this.setEmailState(emailInput);
+    this.setPasswordState(passwordInput, emailInput);
     if (
       this.state.hasEmailError === false &&
       this.state.hasPasswordError === false
     ) {
-      console.log("created user object for POST", user);
       //mimic api response
       axios
-        .get("mock-data")
+        .get(
+          "https://raw.githubusercontent.com/dozaki2732/alula-web-1/master/Desktop/alula-web/src/components/data/user.json"
+        )
         .then((res) => {
           const currentUser = res.data;
           console.log(currentUser);
@@ -75,7 +78,8 @@ class TenantLogin extends Component {
           // handle error
           console.log(error);
         });
-      this.props.history.push("/home-page");
+
+      this.props.history.push("/create-answer");
     }
   }
 
@@ -86,7 +90,7 @@ class TenantLogin extends Component {
         <nav>
           <Link to="/home" className="link">
             <button className="nav-link mt-3 ml-5 back-btn">
-              <i class="fas fa-arrow-left mr-2"></i>Back
+              <i className="fas fa-arrow-left mr-2"></i>Back
             </button>
           </Link>
           <div className="container d-flex justify-content-center mb-5">
@@ -113,10 +117,13 @@ class TenantLogin extends Component {
                       <input
                         type="email"
                         class="form-control"
-                        id="email-address"
+                        id="email-input"
                         placeholder="name@example.com"
                         aria-describedby="emailHelp"
                       />
+                      {this.state.hasEmailError !== "" && (
+                        <p className="text-danger">{this.state.emailError}</p>
+                      )}
                       <small id="emailHelp" class="form-text text-muted">
                         We'll never share your email with anyone else.
                       </small>
@@ -126,9 +133,14 @@ class TenantLogin extends Component {
                       <input
                         type="password"
                         class="form-control"
-                        id="password"
+                        id="password-input"
                         placeholder="Enter Password..."
                       />
+                      {this.state.hasPasswordError !== "" && (
+                        <p className="text-danger">
+                          {this.state.passwordError}
+                        </p>
+                      )}
                     </div>
                     <div class="form-check">
                       <input
@@ -146,10 +158,17 @@ class TenantLogin extends Component {
                         Need an Account? Sign Up
                       </Link>
                     </div>
-                    <div className="d-flex justify-content-center">
-                      <button className="button">Login</button>
-                    </div>
                   </form>
+                  <div className="d-flex justify-content-center">
+                    <button
+                      onClick={() => {
+                        this.validateAndLogUser();
+                      }}
+                      className="button"
+                    >
+                      Login
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -170,4 +189,8 @@ class TenantLogin extends Component {
   }
 }
 
-export default TenantLogin;
+function mapStateToProps(state) {
+  return {};
+}
+
+export default withRouter(connect(mapStateToProps)(TenantLogin));
